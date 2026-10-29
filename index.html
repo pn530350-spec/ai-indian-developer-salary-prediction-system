@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevSalary India AI | Prince</title>
+  <style>
+    :root {
+      --bg: #080d1b;
+      --panel: #111a2e;
+      --panel2: #0d1527;
+      --text: #f4f7ff;
+      --muted: #a9b5cc;
+      --blue: #6d8cff;
+      --cyan: #55e4dc;
+      --border: rgba(255,255,255,.11);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at top left, #18275a 0, transparent 40%),
+        radial-gradient(ellipse at top right, #123c4a 0, transparent 30%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1100px, 92%);
+      margin: auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 0;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #071020;
+      font-size: 23px;
+    }
+
+    .tag {
+      color: var(--cyan);
+      border: 1px solid rgba(85,228,220,.3);
+      border-radius: 99px;
+      padding: 8px 12px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.12;
+      margin: 14px auto;
+      max-width: 800px;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, #91a7ff, #55e4dc);
+      color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+      padding: 22px 0 50px;
+    }
+
+    .card {
+      background: linear-gradient(
+        180deg,
+        rgba(20,31,54,.96),
+        rgba(13,21,39,.96)
+      );
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.18);
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 21px;
+    }
+
+    .sub {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      color: #dbe4f7;
+      font-size: 13px;
+      margin-bottom: 8px;
+      font-weight: 650;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #0a1223;
+      color: var(--text);
+      padding: 13px 12px;
+      border-radius: 11px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(109,140,255,.12);
+    }
+
+    .btn {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+      cursor: pointer;
+      color: #071020;
+      font-size: 15px;
+      font-weight: 800;
+      background: linear-gradient(100deg, #91a7ff, #55e4dc);
+      transition: transform .15s, filter .15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .result-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .status {
+      font-size: 11px;
+      border-radius: 99px;
+      padding: 7px 10px;
+      background: rgba(85,228,220,.1);
+      color: var(--cyan);
+      border: 1px solid rgba(85,228,220,.22);
+    }
+
+    .result-placeholder {
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: var(--muted);
+      padding: 20px;
+    }
+
+    .orb {
+      width: 82px;
+      height: 82px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      background: linear-gradient(
+        135deg,
+        rgba(109,140,255,.2),
+        rgba(85,228,220,.15)
+      );
+      border: 1px solid var(--border);
+      font-size: 38px;
+      margin-bottom: 18px;
+    }
+
+    .result-content {
+      display: none;
+    }
+
+    .salary-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .salary {
+      font-size: clamp(35px, 5vw, 46px);
+      font-weight: 850;
+      letter-spacing: -1.5px;
+      margin: 5px 0;
+    }
+
+    .salary small {
+      font-size: 15px;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .range {
+      color: var(--cyan);
+      font-size: 13px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .metric {
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 15px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      font-size: 19px;
+    }
+
+    .bar-title {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 16px 0 8px;
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 99px;
+      background: #25314b;
+      overflow: hidden;
+    }
+
+    .bar > div {
+      height: 100%;
+      width: 0;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transition: width .5s;
+    }
+
+    .tips {
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(109,140,255,.06);
+    }
+
+    .tips h3 {
+      font-size: 14px;
+      margin: 0 0 10px;
+    }
+
+    .tips ul {
+      padding-left: 18px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 18px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 22px 0 30px;
+      color: var(--muted);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    footer strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+      }
+
+      .tag {
+        font-size: 10px;
+      }
+
+      .card {
+        padding: 19px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .fields {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .hero {
+        padding-top: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">₹</div>
+        <div>
+          DevSalary <span style="color:var(--cyan)">India AI</span>
+          <div style="font-size:11px;color:var(--muted);font-weight:500;margin-top:3px">
+            Indian Developer Salary Predictor
+          </div>
+        </div>
+      </div>
+      <div class="tag">🇮🇳 MADE FOR INDIA</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">Smart career insights</div>
+      <h1>अपनी Developer Salary का <span>अनुमान लगाएँ</span></h1>
+      <p>
+        अपनी skills, experience और शहर की जानकारी भरें।
+        यह टूल भारतीय IT जॉब मार्केट के लिए एक अनुमानित
+        salary range दिखाएगा।
+      </p>
+    </section>
+
+    <main class="layout">
+      <section class="card">
+        <h2>👨‍💻 अपनी जानकारी भरें</h2>
+        <p class="sub">
+          बेहतर अनुमान के लिए अपनी जानकारी चुनें।
+          सभी रकम भारतीय रुपये में दिखाई जाएँगी।
+        </p>
+
+        <form id="salaryForm">
+          <div class="fields">
+            <div class="field">
+              <label for="role">Developer Role</label>
+              <select id="role">
+                <option value="frontend">Frontend Developer</option>
+                <option value="backend">Backend Developer</option>
+                <option value="fullstack" selected>Full Stack Developer</option>
+                <option value="mobile">Mobile App Developer</option>
+                <option value="data">Data Scientist / AI Engineer</option>
+                <option value="devops">DevOps Engineer</option>
+                <option value="qa">QA / Test Engineer</option>
+                <option value="cyber">Cybersecurity Engineer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="experience">Experience (साल)</label>
+              <select id="experience">
+                <option value="0">Fresher (0 साल)</option>
+                <option value="1">1 साल</option>
+                <option value="2">2 साल</option>
+                <option value="4" selected>3–5 साल</option>
+                <option value="7">6–8 साल</option>
+                <option value="10">9+ साल</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="city">आपका शहर</label>
+              <select id="city">
+                <option value="1">अन्य शहर</option>
+                <option value="1.12">Pune</option>
+                <option value="1.18" selected>Bengaluru</option>
+                <option value="1.15">Hyderabad</option>
+                <option value="1.12">Gurugram / Delhi NCR</option>
+                <option value="1.12">Mumbai</option>
+                <option value="1.08">Chennai</option>
+                <option value="1.05">Noida</option>
+                <option value="0.95">Indore / Jaipur / अन्य</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="company">Company Type</label>
+              <select id="company">
+                <option value="0.85">Service-based company</option>
+                <option value="1" selected>Product-based company</option>
+                <option value="1.35">Top tech / high-growth startup</option>
+                <option value="0.9">Small business / agency</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="education">Education</label>
+              <select id="education">
+                <option value="0.95">Diploma / अन्य</option>
+                <option value="1" selected>B.Tech / B.E. / BCA / MCA</option>
+                <option value="1.03">M.Tech / विशेष डिग्री</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="skill">Skill Level</label>
+              <select id="skill">
+                <option value="0.82">Beginner</option>
+                <option value="1" selected>Intermediate</option>
+                <option value="1.25">Advanced</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="skills">मुख्य Skills (वैकल्पिक)</label>
+              <input
+                id="skills"
+                type="text"
+                placeholder="जैसे JavaScript, Python, React, SQL"
+              >
+            </div>
+          </div>
+
+          <button class="btn" type="submit">
+            ✨ मेरी Salary का अनुमान लगाएँ
+          </button>
+        </form>
+      </section>
+
+      <section class="card" aria-live="polite">
+        <div class="result-top">
+          <div>
+            <h2>📊 Salary Report</h2>
+            <p class="sub" style="margin:5px 0 0">
+              आपका अनुमानित salary dashboard
+            </p>
+          </div>
+          <div class="status">● Estimate</div>
+        </div>
+
+        <div id="placeholder" class="result-placeholder">
+          <div class="orb">₹</div>
+          <h3 style="color:var(--text);margin:0 0 8px">
+            आपकी रिपोर्ट तैयार है?
+          </h3>
+          <p style="max-width:290px;line-height:1.7;margin:0">
+            बाईं ओर अपनी जानकारी भरें और बटन दबाएँ।
+            आपका अनुमान यहाँ दिखाई देगा।
+          </p>
+        </div>
+
+        <div id="result" class="result-content">
+          <div class="salary-label">Estimated Annual CTC</div>
+          <div class="salary" id="annual">₹12.0 <small>LPA</small></div>
+          <div class="range" id="range">रेंज: ₹10–14 लाख प्रति वर्ष</div>
+
+          <div class="metrics">
+            <div class="metric">
+              <span>मासिक अनुमान (CTC ÷ 12)</span>
+              <strong id="monthly">₹1,00,000</strong>
+            </div>
+            <div class="metric">
+              <span>Experience Level</span>
+              <strong id="level">Mid-level</strong>
+            </div>
+          </div>
+
+          <div class="bar-title">
+            <span>अनुमानित salary level</span>
+            <span id="percent">65%</span>
+          </div>
+          <div class="bar"><div id="barFill"></div></div>
+
+          <div class="tips">
+            <h3>🚀 Salary बढ़ाने के सुझाव</h3>
+            <ul id="tipsList">
+              <li>एक मुख्य programming language में अच्छी पकड़ बनाएँ।</li>
+              <li>अपने projects और GitHub portfolio को बेहतर बनाएँ।</li>
+              <li>Interview और problem-solving का नियमित अभ्यास करें।</li>
+            </ul>
+          </div>
+
+          <p class="note">
+            यह एक अनुमान है, नौकरी का वादा नहीं। वास्तविक वेतन कंपनी,
+            शहर, skills, interview performance और market conditions पर
+            निर्भर करता है। मासिक राशि gross CTC का औसत है; in-hand
+            salary इससे कम हो सकती है।
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© 2026 <strong>DevSalary India AI</strong></div>
+      <div>Created with 💙 for learners like Prince · Class 9</div>
+    </footer>
+  </div>
+
+  <!-- भाग 2 का JavaScript यहाँ जोड़ें -->
+</body>
+</html>
